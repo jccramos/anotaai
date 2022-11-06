@@ -1,4 +1,4 @@
-python==3.7
+python==3.10.8
 Flask==2.2.2
 bs4==0.0.1
 requests==2.28.1
