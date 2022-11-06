@@ -7,7 +7,6 @@ app = Flask(__name__)
 def welcome():
     if request.method == "POST":
         url = request.get_json(force=True)["url"]
-        breakpoint()
         item, local = main(url)
         json_item = item.to_json()
         # TODO: Wait the implementation in mobile to return this one!
