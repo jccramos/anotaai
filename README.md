@@ -20,7 +20,7 @@ Anotai-api is being able to do this via data scraping, which is accomplished by 
 
 ## Get Started
 1. Clone this repo inside a virtual-enviroment, and install with pip the librarys listed in requirements.text, of if you prefer, we rommend you to install poetry, and run Make Install. Poetry creates the virtual-enviroment when you do it.
-2. To run this project go into the directory you cloned this repo, actrivate your virtual enviroment and run `python3.10.8 run app.py`, or if you prefered to install poetry, justo go into the direcory you cloned this repo, and run `poetry run python app.py`
+2. To run this project go into the directory you cloned this repo, actrivate your virtual enviroment and run `python3.10.8 run app.py`, or if you prefered to install poetry, justo go into the direcory you cloned this repo, and run `Make app dry`
 3. Open the local link (devolpment mode), and in other terminal just copy and paste the same code used in the example above, and showed bellow:
 ```curl -X POST http://127.0.0.1:5000/anotai -H 'Content-Type: application/json' -d '{"url": "https://sat.s"https://sat.sef.sc.gov.br/nfce/consulta?p=42220902314041001583650080000025361825952526|2|1|1|E38A1560B7B59971A5DDE40975DA38A73B564F56"}'```
 At this point, you must get a json data structure informing the tax cupom contet.
