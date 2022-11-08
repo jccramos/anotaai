@@ -8,10 +8,10 @@ def welcome():
     if request.method == "POST":
         url = request.get_json(force=True)["url"]
         item, local = main(url)
-        json_item = item.to_json()
+        list_of_items = item.values.tolist()
         # TODO: Wait the implementation in mobile to return this one!
-        #local_item =local.to_json()
-        return json_item
+        #local_item =local.values.tolist()
+        return list_of_items
     else:
         return "The request method was unexpected!!"
 if __name__ == '__main__':
