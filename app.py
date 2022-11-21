@@ -5,10 +5,10 @@ from flask import Flask, request
 from flask_mail import Mail, Message
 from crawler import main
 
-secrets = secretmanager.SecretManagerServiceClient()
-PROJECT_ID = "anotaai-api"
+#secrets = secretmanager.SecretManagerServiceClient()
+#PROJECT_ID = "anotaai-api"
 
-GMAIL_AUTH_LOGIN = secrets.access_secret_version(request={"name": "projects/"+PROJECT_ID+"/secrets/gmail-auth-login/versions/1"}).payload.data.decode("utf-8")
+#GMAIL_AUTH_LOGIN = secrets.access_secret_version(request={"name": "projects/"+PROJECT_ID+"/secrets/gmail-auth-login/versions/1"}).payload.data.decode("utf-8")
 
 
 app = Flask(__name__)
@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'equipeanotaai@gmail.com'
-app.config['MAIL_PASSWORD'] = GMAIL_AUTH_LOGIN.replace("[", "").replace("]","")
+app.config['MAIL_PASSWORD'] = "drjnpebfebrecobb"#GMAIL_AUTH_LOGIN.replace("[", "").replace("]","")
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
