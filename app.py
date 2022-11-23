@@ -1,14 +1,12 @@
 import os
-import google.cloud.secretmanager  as secretmanager
 
 from flask import Flask, request
 from flask_mail import Mail, Message
+
 from crawler import main
-
-secrets = secretmanager.SecretManagerServiceClient()
-PROJECT_ID = "anotaai-api"
-
-GMAIL_AUTH_LOGIN = secrets.access_secret_version(request={"name": "projects/"+PROJECT_ID+"/secrets/gmail-auth-login/versions/1"}).payload.data.decode("utf-8")
+from utils import get_subject_elements, compose_msg
+from data import premium_users
+from config import GMAIL_AUTH_LOGIN
 
 
 app = Flask(__name__)
@@ -30,36 +28,31 @@ def welcome():
         email = post_request["email"]
 
         item, local = main(url)
+        item.to_excel(f"detalhes_compra.xlsx", index=False)
 
-        item.to_excel("detalhes_compra.xlsx", index=False)
-
-        msg_local = local["local"][0]
-        msg_day = local["dt_emissao"][0].split(" ")[0]
-        msg_when = local["dt_emissao"][0].split(" ")[1][:5].replace(":", "h")+"min"
-
-        msg = Message(
-            f"Gastos em {msg_local}",
-            sender ='equipeanotaai@gmail.com',
-            recipients=[email]
-        )
-        msg.html = f"""
-        <div><span> Ol&aacute;, agora voc&ecirc; pode ver com o que gastou em </span><strong>{msg_local}.</strong><span><br /></span></div>
-        <div>&nbsp;</div>
-        <div><span> A sua compra foi realizada no dia </span><strong>{msg_day}</strong><span> &agrave;s </span><strong>{msg_when}</strong><span>,</span></div>
-        <div><span> os detalhes desta compra est&atilde;o no anexo deste email.</span></div>
-        <div>&nbsp;</div>
-        <div>&nbsp;</div>
-        <div><span> N&atilde;o &eacute; &oacute;timo poder enxergar com o que voc&ecirc; gastou de fato??</span></div>
-        <div><strong> Compartilhe est&aacute; ideia com seus amigos #AnotaAi :))</strong></div>
-        <div>&nbsp;</div>
-        <div><span>&nbsp;</span></div>
-        """
+        msg_local, msg_day, msg_when = get_subject_elements(local)
+        if email in premium_users:
+            msg = Message(
+                f"Gastos em {msg_local} {email}",
+                sender ='equipeanotaai@gmail.com',
+                recipients=['equipeanotaai@gmail.com']
+            )
+        else:
+            msg = Message(
+                f"Gastos em {msg_local}",
+                sender ='equipeanotaai@gmail.com',
+                recipients=[email]
+            )
+    
+        msg.html = compose_msg(msg_local, msg_day, msg_when)
 
         with app.open_resource("detalhes_compra.xlsx") as fp:
-            msg.attach("detalhes_compra.xlsx", "detalhes_compra/xlsx", fp.read())
-
+            if email in premium_users:
+                msg.attach(f"detalhes_compra_{email}.xlsx", "detalhes_compra/xlsx", fp.read())
+            else:
+                msg.attach(f"detalhes_compra.xlsx", "detalhes_compra/xlsx", fp.read())
+        
         mail.send(msg)
-
         os.remove("detalhes_compra.xlsx")
 
         # TODO: Wait the implementation in mobile to return this one!
