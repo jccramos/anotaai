@@ -6,6 +6,11 @@ FROM python:3.10-slim
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
 
+ARG PROJECT_ID
+ENV PROJECT_ID=$PROJECT_ID
+
+
+
 # Copy local code to the container image.
 ENV APP_HOME /app
 WORKDIR $APP_HOME
