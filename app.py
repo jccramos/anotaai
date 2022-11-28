@@ -2,10 +2,8 @@ import os
 
 from flask import Flask, request
 from flask_mail import Mail, Message
-
 from crawler import main
 from utils import get_subject_elements, compose_msg
-from data import premium_users
 from config import GMAIL_AUTH_LOGIN
 
 
@@ -26,12 +24,16 @@ def welcome():
         post_request = request.get_json(force=True)
         url = post_request["url"]
         email = post_request["email"]
+        premium_user=post_request["premium"]
 
         item, local = main(url)
-        item.to_excel(f"detalhes_compra.xlsx", index=False)
+        item.to_excel(
+            f"detalhes_compra.xlsx",
+            index=False
+        )
 
         msg_local, msg_day, msg_when = get_subject_elements(local)
-        if email in premium_users:
+        if premium_user:
             msg = Message(
                 f"Gastos em {msg_local} {email}",
                 sender ='equipeanotaai@gmail.com',
@@ -47,7 +49,7 @@ def welcome():
         msg.html = compose_msg(msg_local, msg_day, msg_when)
 
         with app.open_resource("detalhes_compra.xlsx") as fp:
-            if email in premium_users:
+            if email in premium_user:
                 msg.attach(f"detalhes_compra_{email}.xlsx", "detalhes_compra/xlsx", fp.read())
             else:
                 msg.attach(f"detalhes_compra.xlsx", "detalhes_compra/xlsx", fp.read())
