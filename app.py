@@ -49,7 +49,7 @@ def welcome():
         msg.html = compose_msg(msg_local, msg_day, msg_when)
 
         with app.open_resource("detalhes_compra.xlsx") as fp:
-            if email in premium_user:
+            if premium_user:
                 msg.attach(f"detalhes_compra_{email}.xlsx", "detalhes_compra/xlsx", fp.read())
             else:
                 msg.attach(f"detalhes_compra.xlsx", "detalhes_compra/xlsx", fp.read())
