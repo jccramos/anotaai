@@ -1,10 +1,11 @@
 import os
+import logging
 
 from flask import Flask, request
 from flask_mail import Mail, Message
 from crawler import main
 from utils import get_subject_elements, compose_msg
-from config import GMAIL_AUTH_LOGIN
+from config import GMAIL_AUTH_LOGIN, ERRORS
 
 
 app = Flask(__name__)
@@ -17,6 +18,8 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
+logger = logging.getLogger()
+logger.setLevel(logging.ERROR)
 
 @app.route('/anotai', methods=['GET', 'POST'])
 def welcome():
@@ -27,10 +30,18 @@ def welcome():
         premium_user=post_request["premium"]
 
         item, local = main(url)
-        item.to_excel(
-            f"detalhes_compra.xlsx",
-            index=False
-        )
+        try:
+            item.to_excel(
+                f"detalhes_compra.xlsx",
+                index=False
+            )
+        except:
+            logger.error(f"""
+                An AttributeError ocurred for {email},
+                this probably happened due to some problem with the URL passed in the request body.
+                the URL used was {url}
+            """)
+            return ERRORS["invalid_link"]
 
         msg_local, msg_day, msg_when = get_subject_elements(local)
         if premium_user:

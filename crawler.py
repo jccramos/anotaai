@@ -67,20 +67,22 @@ def mk_table(url, where, when):
 
 def main(url):
     r = retry_get(url)
-    html = r.text
-    soup = BeautifulSoup(html, 'html.parser')
+    if r == None:
+        return r, r
+    else:
+        html = r.text
+        soup = BeautifulSoup(html, 'html.parser')
 
-    where = get_where(soup)
-    when = get_when(soup)
+        where = get_where(soup)
+        when = get_when(soup)
 
-    table_item = mk_table(url, where, when)
-    
-    table_local = (
-        table_item
-        [["local", "dt_emissao", "vl_prod"]]
-        .groupby(["local", "dt_emissao"])
-        .sum()
-        .reset_index()
-    )
-    
-    return table_item, table_local
+        table_item = mk_table(url, where, when)
+
+        table_local = (
+            table_item
+            [["local", "dt_emissao", "vl_prod"]]
+            .groupby(["local", "dt_emissao"])
+            .sum()
+            .reset_index()
+        )
+        return table_item, table_local
