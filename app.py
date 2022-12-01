@@ -58,7 +58,7 @@ def welcome():
         os.remove("detalhes_compra.xlsx")
 
         # TODO: Wait the implementation in mobile to return this one!
-        #local_item =local.to_json()
+        #local_item =local.to_json)
         return item.values.tolist()
     else:
         return "The request method was unexpected!!"
