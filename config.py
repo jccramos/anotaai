@@ -1,4 +1,10 @@
 import google.cloud.secretmanager  as secretmanager
+import logging
+
+
+
+logger = logging.getLogger()
+logger.setLevel(logging.ERROR)
 
 secrets = secretmanager.SecretManagerServiceClient()
 PROJECT_ID = "anotaai-api"
