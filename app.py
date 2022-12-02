@@ -1,4 +1,5 @@
 import os
+
 from flask import Flask, request
 from flask_mail import Mail, Message
 
@@ -29,7 +30,7 @@ def welcome():
             mail.send(msg)
             os.remove("detalhes_compra.xlsx")
         except Exception as e:
-            logger.error(f"Error in Welcome for {email}: {e}")
+            logger.error(f"Error in Welcome: {e}")
             return ERRORS["invalid_link"]
         return item.values.tolist()
     else:
