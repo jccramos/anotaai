@@ -1,10 +1,10 @@
 import os
-
 from flask import Flask, request
 from flask_mail import Mail, Message
+
 from crawler import create_xlsx_file
 from utils import parse_request, mk_massage
-from config import GMAIL_AUTH_LOGIN, logger
+from config import GMAIL_AUTH_LOGIN, ERRORS, logger
 
 
 app = Flask(__name__)
@@ -30,7 +30,7 @@ def welcome():
             os.remove("detalhes_compra.xlsx")
         except Exception as e:
             logger.error(f"Error in Welcome: {e}")
-            return None
+            return ERRORS["invalid_link"]
         return item.values.tolist()
     else:
         return ""

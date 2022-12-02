@@ -17,9 +17,13 @@ GMAIL_AUTH_LOGIN = secrets.access_secret_version(
 ERRORS = {
     "invalid_link": [
         [
-            """
-            erro: link invalido
-            """
+            "Desculpe, o link inserido a partir do QR-code lido é inválido",
+            "error",
+            "", #não usa
+            "Desculpe, o link inserido a partir do QR-code lido é inválido",
+            "",
+            0.0,
+            0.0
         ]
     ]
 }
