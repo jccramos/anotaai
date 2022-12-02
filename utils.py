@@ -35,7 +35,8 @@ def parse_request(request):
         if not url.startswith("https://sat.sef.sc.gov.br/nfce/"):
             raise ValueError(f"invalid url {url}")
     except Exception as e:
-        logger.error(f"Error in parse_request function: {e}")
+        logger.error(f"Error in parse_request function for {email}: {e}")
+        return None, email, premium_user
     return url, email, premium_user
 
 
