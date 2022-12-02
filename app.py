@@ -29,7 +29,7 @@ def welcome():
             mail.send(msg)
             os.remove("detalhes_compra.xlsx")
         except Exception as e:
-            logger.error(f"Error in welcome for {email}: {e}")
+            logger.error(f"Error in Welcome for {email}: {e}")
             return ERRORS["invalid_link"]
         return item.values.tolist()
     else:
