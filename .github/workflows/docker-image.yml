@@ -2,7 +2,7 @@ name: GCP Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [prod_env]
 
 jobs:
   deploy:
