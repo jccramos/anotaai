@@ -2,13 +2,13 @@ name: GCP Deploy
 
 on:
   push:
-    branches: [prod_env]
+    branches: [prd_env]
 
 jobs:
   deploy:
     name: Setup Gcloud Account
     runs-on: ubuntu-latest
-    environment: anotaai-prod
+    environment: anotaai-prd
     env:
       IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/site:latest
     steps:
