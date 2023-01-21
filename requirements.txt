@@ -8,3 +8,6 @@ openpyxl==3.0.10
 Flask-Mail==0.9.1
 google-cloud-secret-manager==2.12.6
 Flask-Cors==3.0.10
+cloud-sql-python-connector==1.1.0
+SQLAlchemy==1.4.46
+PyMySQL==1.0.2
