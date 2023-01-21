@@ -15,10 +15,10 @@ GMAIL_AUTH_LOGIN = secrets.access_secret_version(
 
 db_pass = secrets.access_secret_version(
     request={"name": "projects/"+PROJECT_ID+"/secrets/db-dev-pass/versions/1"}
-).payload.data.decode("utf-8")
+).payload.data.decode("utf-8").replace("[", "").replace("]","")
 instance_connection_name = secrets.access_secret_version(
     request={"name": "projects/"+PROJECT_ID+"/secrets/instance-connection-name/versions/1"}
-).payload.data.decode("utf-8")
+).payload.data.decode("utf-8").replace("[", "").replace("]","")
 db_user = "dev-user"
 db_name = "anotaai-bd"
 

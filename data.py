@@ -12,9 +12,7 @@ from config import (
     instance_connection_name
 )
 
-print(db_name,
-    db_pass,
-    db_user,
+print(db_pass,
     instance_connection_name)
 
 def connect_with_connector() -> sqlalchemy.engine.base.Engine:
