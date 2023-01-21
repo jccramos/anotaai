@@ -20,7 +20,6 @@ instance_connection_name = secrets.access_secret_version(
     request={"name": "projects/"+PROJECT_ID+"/secrets/instance-connection-name/versions/1"}
 ).payload.data.decode("utf-8")
 db_user = "dev-user"
-db_pass = "db-dev-pass"
 db_name = "anotaai-bd"
 
 
