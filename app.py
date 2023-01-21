@@ -26,7 +26,7 @@ mail = Mail(app)
 @app.route('/anotai', methods=['POST'])
 @cross_origin()
 def welcome():
-    conn = connect_with_connector.getconn()
+    conn = connect_with_connector()
     return pd.read_sql("select * from user_description", conn)
     # if request.method == "POST":
     #     try:
