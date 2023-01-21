@@ -23,6 +23,7 @@ mail = Mail(app)
 
 
 @app.route('/anotai', methods=['POST'])
+@cross_origin()
 def welcome():
     if request.method == "POST":
         try:
