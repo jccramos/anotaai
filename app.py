@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 
 from flask import Flask, request
 from flask_mail import Mail, Message
@@ -7,7 +8,7 @@ from flask_cors import CORS, cross_origin
 from crawler import create_xlsx_file
 from utils import parse_request, mk_massage
 from config import GMAIL_AUTH_LOGIN, ERRORS, logger
-
+from data import connect_with_connector
 
 app = Flask(__name__)
 CORS(app)
@@ -25,18 +26,20 @@ mail = Mail(app)
 @app.route('/anotai', methods=['POST'])
 @cross_origin()
 def welcome():
-    if request.method == "POST":
-        try:
-            url, email, premium_user = parse_request(request)
-            item, local = create_xlsx_file(url)
-            msg = mk_massage(Message, local, premium_user, email, app)
-            mail.send(msg)
-            os.remove("detalhes_compra.xlsx")
-        except Exception as e:
-            logger.error(f"Error in Welcome: {e}")
-            return ERRORS["invalid_link"]
-        return item.values.tolist()
-    else:
-        return ""
+    conn = connect_with_connector.getconn()
+    return pd.read_sql("select * from user_description", conn)
+    # if request.method == "POST":
+    #     try:
+    #         url, email, premium_user = parse_request(request)
+    #         item, local = create_xlsx_file(url)
+    #         msg = mk_massage(Message, local, premium_user, email, app)
+    #         mail.send(msg)
+    #         os.remove("detalhes_compra.xlsx")
+    #     except Exception as e:
+    #         logger.error(f"Error in Welcome: {e}")
+    #         return ERRORS["invalid_link"]
+    #     return item.values.tolist()
+    # else:
+    #     return ""
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
