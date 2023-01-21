@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, request
 from flask_mail import Mail, Message
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 from crawler import create_xlsx_file
 from utils import parse_request, mk_massage
