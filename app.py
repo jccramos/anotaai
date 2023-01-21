@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, request
 from flask_mail import Mail, Message
+from flask_cors import CORS
 
 from crawler import create_xlsx_file
 from utils import parse_request, mk_massage
@@ -9,6 +10,7 @@ from config import GMAIL_AUTH_LOGIN, ERRORS, logger
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
