@@ -26,21 +26,21 @@ mail = Mail(app)
 @app.route('/anotai', methods=['POST'])
 @cross_origin()
 def welcome():
-    conn = connect_with_connector()
-    df = pd.read_sql("select * from user_description", conn)
-    return df.to_dict()
-    # if request.method == "POST":
-    #     try:
-    #         url, email, premium_user = parse_request(request)
-    #         item, local = create_xlsx_file(url)
-    #         msg = mk_massage(Message, local, premium_user, email, app)
-    #         mail.send(msg)
-    #         os.remove("detalhes_compra.xlsx")
-    #     except Exception as e:
-    #         logger.error(f"Error in Welcome: {e}")
-    #         return ERRORS["invalid_link"]
-    #     return item.values.tolist()
-    # else:
-    #     return ""
+    # conn = connect_with_connector()
+    # df = pd.read_sql("select * from user_description", conn)
+    # return df.to_dict()
+    if request.method == "POST":
+        try:
+            url, email, premium_user = parse_request(request)
+            item, local = create_xlsx_file(url)
+            msg = mk_massage(Message, local, premium_user, email, app)
+            mail.send(msg)
+            os.remove("detalhes_compra.xlsx")
+        except Exception as e:
+            logger.error(f"Error in Welcome: {e}")
+            return ERRORS["invalid_link"]
+        return item.values.tolist()
+    else:
+        return ""
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
