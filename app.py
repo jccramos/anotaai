@@ -27,7 +27,8 @@ mail = Mail(app)
 @cross_origin()
 def welcome():
     conn = connect_with_connector()
-    return pd.read_sql("select * from user_description", conn)
+    df = pd.read_sql("select * from user_description", conn)
+    return df.to_dict()
     # if request.method == "POST":
     #     try:
     #         url, email, premium_user = parse_request(request)
